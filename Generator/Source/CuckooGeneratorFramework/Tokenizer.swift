@@ -443,7 +443,7 @@ public struct Tokenizer {
     /// - parameter source: A trimmed string containing only the method return signature excluding the trailing brace
     /// - returns: ReturnSignature structure containing the parsed throwString, return type, and where constraints
     private func parseReturnSignature(source: String) -> ReturnSignature {
-        var isAsync = false
+        var isAsync = true
         var throwString = nil as String?
         var returnType: WrappableType?
         var whereConstraints = [] as [String]

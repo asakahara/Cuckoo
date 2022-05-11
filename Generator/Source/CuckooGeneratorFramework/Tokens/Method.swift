@@ -49,7 +49,7 @@ public extension Method {
     }
     
     var isAsync: Bool {
-        return returnSignature.isAsync
+        return true
     }
     
     var isThrowing: Bool {
