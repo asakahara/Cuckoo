@@ -8,7 +8,10 @@
 extension Templates {
     static let noImplStub = """
 {{container.accessibility}} class {{ container.name }}Stub{{ container.genericParameters }}: {{ container.name }}{% if container.isImplementation %}{{ container.genericArguments }}{% endif %} {
-    {% for property in container.properties %}
+    {% for property in container.properties %}    
+    {% if debug %}
+    // {{property}}
+    {% endif %}
     {% for attribute in property.attributes %}
     {{ attribute.text }}
     {% endfor %}
@@ -31,7 +34,13 @@ extension Templates {
     {% endfor %}
 
     {% for method in container.methods %}
-    {{ method.accessibility }}{% if container.@type == "ClassDeclaration" and method.isOverriding %} override{% endif %} func {{ method.name }}{{ method.genericParameters }}({{ method.parameterSignature }}) {{ method.returnSignature }} {{ method.whereClause }} {
+    {% if debug %}
+    // {{method}}
+    {% endif %}
+    {% for attribute in method.attributes %}
+    {{ attribute.text }}
+    {% endfor %}
+    {{ method.accessibility }}{% if container.@type == "ClassDeclaration" and method.isOverriding %} override{% endif %} func {{ method.name|escapeReservedKeywords }}{{ method.genericParameters }}({{ method.parameterSignature }}) {{ method.returnSignature }} {{ method.whereClause }} {
         return DefaultValueRegistry.defaultValue(for: ({{method.returnType|genericSafe}}).self)
     }
     {% endfor %}
